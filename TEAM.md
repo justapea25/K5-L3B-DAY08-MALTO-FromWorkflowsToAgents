@@ -15,7 +15,7 @@
 |   1 | Đặng Minh Thu | 2A202604009 | 26ai.thudm@vinuni.edu.vn | minhthu27 | Orchestrator + handoff (shape C) |
 |   2 | Nguyễn Xuân Khánh Linh | 2A202603801 | nxklinh@gmail.com | [linkiewinkie](https://github.com/linkiewinkie) | Durability, security + eval |
 |   3 | Đậu Hoàng Minh | 2A202604011 | 26ai.minhdh4@vinuni.edu.vn | [justapea25](https://github.com/justapea25) | Workflow (shape A) + tích hợp repo |
-|   4 |        |      |       |        |         |
+|   4 | Le The Anh | 2A202603983 |  | [LETHESHIYING](https://github.com/LETHESHIYING) | Single agent (shape B) |
 
 Gợi ý chia vai:
 
@@ -31,6 +31,7 @@ Gợi ý chia vai:
 | Đặng Minh Thu | Orchestrator + handoff (shape C) | `830a54c`: orchestrator.py, handoff allowlist, trace handoff đã làm sạch | `tests/test_group_orchestrator.py`: `test_orchestrator_traces_only_sanitized_readonly_handoff`, `test_handoff_refuses_write_tool`, `test_handoff_drops_parent_context_from_facts` |
 | Nguyễn Xuân Khánh Linh | Durability, security + eval | `b4076c8`: test ledger/idempotency/injection, sinh `src/reports/benchmark.json` và `crash.json` bằng công cụ có sẵn | `src/tests/test_group_workflow.py`: `test_injection_cannot_override_order_or_leak_context`, `test_unknown_claim_returns_failed_with_trace_and_no_write`, `test_missing_order_id_does_not_use_order_from_ticket`, `test_t14_passes_full_quote_and_pays_only_the_difference`, `test_t14_retry_keeps_one_refund_and_one_committed_audit` |
 | Đậu Hoàng Minh | Workflow (shape A) + tích hợp repo | `aa39dd7`: `workflow.py` và hàm dùng chung `settle()` / `finish_status()`; `28f72f0`, `099e004`: gộp nhánh thành viên vào `dev`, xử lý conflict | `src/tests/test_group_workflow.py` (`c0b7841`): `test_workflow_ignores_injection_and_lying_delay_in_ticket`, `test_workflow_unknown_claim_fails_without_exception`, `test_workflow_retry_is_idempotent_and_proposal_stays_full_quote`, `test_workflow_missing_order_id_needs_info_without_ledger` |
+| Le The Anh | Single agent (shape B) | `7390aaa`: cùng Codex hoàn thiện single agent, tính quote một lần và chuyển quote đầy đủ cho host; `1adafcb`: bổ sung test | `src/tests/test_group_single.py`: `test_single_computes_compensation_once` (resolved và denied), thực hiện cùng Codex |
 
 ## Cá nhân
 
