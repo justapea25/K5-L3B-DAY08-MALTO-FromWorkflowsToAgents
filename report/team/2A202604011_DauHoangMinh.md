@@ -64,12 +64,6 @@ Các lệnh chạy trong `src/`:
 
 ## 6. Tự đánh giá
 
-TODO: tự viết phần này (RULES.md không cho dùng AI viết phần tự đánh giá). Gợi ý các ý:
-
-- Phần nào tôi hiểu chắc và giải thích lại được, ví dụ vì sao phải truyền quote đầy đủ, vì sao checkpoint không thay được ledger.
-- Phần nào còn chưa chắc hoặc phụ thuộc vào AI nhiều.
-- Nếu làm lại, tôi sẽ làm khác điều gì.
-
 Tôi hiểu chắc chắn được logic luồng workflow đã xây, và so sánh khác biệt với luồng single agent, orchestrator và swarm. Tôi hiểu được luồng nghiệp vụ phải tuyền đầy đủ quote, shape không can thiệp vào phần số truyền đến cho host, để tránh việc bị trừ hai lần cho một đơn hàng. Ví dụ như một đơn mệnh giá 100,000, đã được hoàn 20,000 tiền ship thì vẫn phải gửi số quote đầy đủ là 100,000, nếu shape tự ý trừ tiền trước thì có thể gây ra số tiền hoàn bị trừ hai lần.
 
 Về phần còn chưa chắc và phụ thuộc vào AI là phần về viết code để thực hiện logic flow và đảm bảo đủ test case bao phủ các trường hợp, các test case tự bản thân nghĩ ra nhiều khi chưa bao phủ được toàn bộ các trương hợp
