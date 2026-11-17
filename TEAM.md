@@ -3,15 +3,15 @@
 ## Thông tin nhóm
 
 - Tên nhóm:
-- Lớp: L3A
-- Repo nhóm: `K5-L3A-DAY08-TenNhom-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
+- Lớp: L3B
+- Repo nhóm: `K5-L3B-DAY08-MALTO-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
 - URL repo, nhánh nộp, commit chốt:
 
 ## Thành viên
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 |        |      |       |        |         |
+|   1 | Đặng Minh Thu | 2A202604009 | 26ai.thudm@vinuni.edu.vn | minhthu27 | Orchestrator + handoff (shape C) |
 |   2 |        |      |       |        |         |
 
 Gợi ý chia vai:
@@ -25,7 +25,7 @@ Gợi ý chia vai:
 
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
-| | | | |
+| Đặng Minh Thu | Orchestrator + handoff (shape C) | `830a54c`: orchestrator.py, handoff allowlist, trace handoff đã làm sạch | `tests/test_group_orchestrator.py`: `test_orchestrator_traces_only_sanitized_readonly_handoff`, `test_handoff_refuses_write_tool`, `test_handoff_drops_parent_context_from_facts` |
 
 ## Cá nhân
 
