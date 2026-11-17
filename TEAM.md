@@ -1,18 +1,21 @@
-# Team
+# Nhóm MALTO
 
 ## Thông tin nhóm
 
-- Tên nhóm:
+- Tên nhóm: MALTO
 - Lớp: L3B
 - Repo nhóm: `K5-L3B-DAY08-MALTO-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
-- URL repo, nhánh nộp, commit chốt:
+- URL repo: https://github.com/justapea25/K5-L3B-DAY08-MALTO-FromWorkflowsToAgents
+- Nhánh làm việc hiện tại: `main`; nhánh nộp và commit chốt: nhóm xác nhận sau khi tích hợp.
 
 ## Thành viên
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
 |   1 | Đặng Minh Thu | 2A202604009 | 26ai.thudm@vinuni.edu.vn | minhthu27 | Orchestrator + handoff (shape C) |
-|   2 |        |      |       |        |         |
+|   2 | Nguyễn Xuân Khánh Linh | 2A202603801 | nxklinh@gmail.com | [linkiewinkie](https://github.com/linkiewinkie) | workflow + integration |
+|   3 |        |      |       |        |         |
+|   4 |        |      |       |        |         |
 
 Gợi ý chia vai:
 
@@ -26,6 +29,7 @@ Gợi ý chia vai:
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
 | Đặng Minh Thu | Orchestrator + handoff (shape C) | `830a54c`: orchestrator.py, handoff allowlist, trace handoff đã làm sạch | `tests/test_group_orchestrator.py`: `test_orchestrator_traces_only_sanitized_readonly_handoff`, `test_handoff_refuses_write_tool`, `test_handoff_drops_parent_context_from_facts` |
+| Nguyễn Xuân Khánh Linh | workflow + integration | | `src/tests/test_group_workflow.py`: injection, claim không tồn tại, thiếu order_id, T14 top-up, T14 retry (5 test) |
 
 ## Cá nhân
 
@@ -39,16 +43,19 @@ Ví dụ: `report/team/20241234_NguyenVanAn.md`.
 
 Sao chép mục dưới đây cho từng thành viên.
 
-## MSSV_HoTen
+## 2A202603801_NguyenXuanKhanhLinh
 
 ### Phần việc phụ trách
 
--
+- Workflow và tích hợp; báo cáo cá nhân: [2A202603801_NguyenXuanKhanhLinh.md](report/team/2A202603801_NguyenXuanKhanhLinh.md).
 
 ### Đóng góp cụ thể
 
--
+- Triển khai `src/lab8/shapes/workflow.py`, thêm 5 test riêng, chạy kiểm thử và sinh bằng chứng public bằng công cụ có sẵn.
 
 ### Bằng chứng
 
--
+- Test riêng: 5/5; ma trận student workflow: 62/62; cổng host: 59/59.
+- `src/reports/benchmark.json`: workflow 70/70 trial public trên 5 seed.
+- `src/reports/crash.json`: bộ crash host 20/20; kiểm trực tiếp workflow qua 3 điểm crash/resume.
+- `report/team/decision_adr.md`: quyết định tạm thời, chờ tích hợp hai shape còn lại.
