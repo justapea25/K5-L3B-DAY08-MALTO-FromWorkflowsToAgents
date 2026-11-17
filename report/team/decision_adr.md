@@ -4,7 +4,7 @@ Giữ nguyên các nhãn dưới đây để `lab8.check_submission` đọc đư
 Kết quả public được chạy lại sau khi gộp đủ ba shape ngày 17/11/2026; còn chờ commit merge.
 
 - Shape chọn: workflow
-- Commit hash: e299418
+- Commit hash: 5972259
 - Run id dẫn chứng: R-workflow-C-014-s11; R-workflow-C-002-s55; tổng hợp tại src/reports/benchmark.json.
 - Pass rate / pass^5 / seed min-max / variance: 1.0 / 1.0 / 1.0–1.0 / 0.0; 70/70 trial public, 14 claim × 5 seed (11,22,33,44,55).
 - Cost per success (mô phỏng, VND): 28.65857142857143; nguồn src/reports/benchmark.json.
@@ -52,5 +52,5 @@ claim lạ, thiếu order_id, sai principal, denied và resolved.
 MockLLM không phải model sản xuất; latency `unavailable`. Chi phí là mô
 phỏng; số event trace không phải thời gian thực. Không sửa JSON bằng tay.
 Bộ host đạt 104/104 và security riêng 15/15 sau gộp. Cần check_submission
-đạt 0 FAIL, commit chốt `e299418`.
+đạt 0 FAIL, commit chốt `5972259`.
 Chưa tự tạo commit merge hoặc push. Trace/SQLite/.venv không đưa vào Git.
