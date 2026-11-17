@@ -1,9 +1,9 @@
-<<<<<<< Updated upstream
 """Group tests for shape A (workflow). Part of the default host gate: must stay green."""
 
 from __future__ import annotations
 
 import copy
+import json
 import time
 from pathlib import Path
 
@@ -11,6 +11,8 @@ import pytest
 
 from lab8.db import connect, init_store
 from lab8.metrics import trial_pass
+from lab8.durability import committed_audit_count, get_refund
+from lab8.shapes.workflow import run_claim
 from lab8.shapes import SHAPES
 from tests.conftest import BY_ID, CLAIMS, WORLD
 
@@ -80,15 +82,8 @@ def test_workflow_missing_order_id_needs_info_without_ledger(tmp_path):
     assert result.status == "needs_info"
     assert result.proposal_amount == 0
     assert result.refund_effects == []
-=======
-"""Test đóng góp workflow: đầu vào không tin cậy, nhánh trả sớm và gọi lại T14."""
 
-import json
-from pathlib import Path
 
-from lab8.db import connect
-from lab8.durability import committed_audit_count, get_refund
-from lab8.shapes.workflow import run_claim
 
 
 def _trace(result):
@@ -207,4 +202,3 @@ def test_t14_retry_keeps_one_refund_and_one_committed_audit(public_db):
         ).fetchone()["n"] == 1
     finally:
         conn.close()
->>>>>>> Stashed changes

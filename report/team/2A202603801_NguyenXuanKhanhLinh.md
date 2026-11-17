@@ -10,83 +10,78 @@
 
 ## 2. Phần việc phụ trách
 
-Workflow và tích hợp: triển khai `src/lab8/shapes/workflow.py`, thêm test riêng,
-cập nhật bảng đóng góp và chuẩn bị ADR cùng bằng chứng public. Các shape
-single/orchestrator và nghiên cứu ablation do các thành viên còn lại hoàn tất.
+Vai trò số 4: durability, security và evaluation. Phụ trách test bảo mật/
+crash, bằng chứng JSON, research card và tổng hợp báo cáo nhóm.
+Workflow/integration thuộc Dau Hoang Minh; single thuộc Le The Anh.
 
 ## 3. Đóng góp cụ thể
 
-- Giữ nguyên chữ ký `run_claim`; đọc claim bằng `get_claim_view`, kiểm quyền
-  qua `lookup_order`, tính quote bằng `compute_compensation` từ order/policy.
-- Không dùng ticket để chọn đơn, số ngày trễ, policy hay số tiền. Workflow
-  không cần gọi model, nên số model call bằng 0.
-- Truyền quote đầy đủ cho `durability.issue_refund`, để host tự kiểm approval
-  và trừ khoản đã hoàn. T14 có proposal 150000 VND và refund mới 120000 VND.
-- Dùng `finish` lấy effect/audit thật từ database, ghi trace ở các nhánh trả
-  sớm; chỉ ghi các field cần thiết. Đóng kết nối bằng `finally`.
-- Truyền `crash_at`, không chặn `InjectedCrash`; ghi trace khi crash truyền ra.
-- Thêm 5 test trong `src/tests/test_group_workflow.py`:
-  `test_injection_cannot_override_order_or_leak_context`,
-  `test_unknown_claim_returns_failed_with_trace_and_no_write`,
-  `test_missing_order_id_does_not_use_order_from_ticket`,
-  `test_t14_passes_full_quote_and_pays_only_the_difference`,
-  `test_t14_retry_keeps_one_refund_and_one_committed_audit`.
+- Viết `src/tests/test_group_security.py` với 15 ca pytest sau tham số hóa:
+  9 ca crash/resume (3 điểm × 3 shape), 3 ca quét secret/PII và 3 ca trace.
+- Crash phải thật sự ném InjectedCrash; kiểm trạng thái effect/checkpoint
+  đúng cửa sổ crash, resume và replay bằng seed khác vẫn chỉ một refund,
+  một audit committed và có checkpoint.
+- Quét secret/PII lấy từ fixture, kết quả, trace/file phụ cùng run_id và
+  stdout/stderr. Các nhánh kiểm gồm resolved, sai principal, injection và
+  approval bị thu hồi. Mỗi trial dùng DB riêng, không sửa dữ liệu chuẩn.
+- Kiểm trace thay file cũ, đúng run_id/shape/claim, có events; phủ cả các
+  nhánh trả sớm. Không skip orchestrator chưa triển khai.
+- Viết `src/bonus/security_eval.py` xuất JSON từ kết quả pytest/JUnit thật;
+  báo cáo không chép traceback hoặc giá trị nhạy cảm.
+- Chuẩn bị ablation R2 tại `src/bonus/swarm_verified.py`, phái sinh có ghi
+  nguồn từ swarm tham chiếu; chỉ tắt nhánh ticket ghi đè delay_days.
+- Điền research card, báo cáo nhóm và cập nhật ADR bằng số liệu mới.
+- Sửa xung đột Git đã bị commit trong workflow/test workflow. Giữ helper
+  finish_status/settle mà single dùng và giữ test cả hai nhánh; không nhận
+  tác giả implementation workflow/single của đồng đội.
+
+Bản sửa security/eval hiện chưa commit theo yêu cầu của thành viên. Hash
+`b4076c8` là mốc nhận về trước khi sửa, không phải hash bằng chứng cho bản mới.
+Sau khi tự xem thay đổi và commit, cần bổ sung hash vào TEAM.md và ADR.
 
 ## 4. Bằng chứng
 
-Các lệnh dưới chạy trong `src/`, sử dụng môi trường `.venv` ở gốc repo:
+Ngày chạy: 17/11/2026. Lệnh chạy trong `src/`:
 
 ```powershell
-& ../.venv/Scripts/python.exe -m lab8.smoke
-& ../.venv/Scripts/python.exe -m pytest -q tests/test_group_workflow.py
-& ../.venv/Scripts/python.exe -m pytest -q -m student -o addopts= -k workflow
-& ../.venv/Scripts/python.exe -m pytest -q
+& ../.venv/Scripts/python.exe -m bonus.security_eval --out reports/security.json
+& ../.venv/Scripts/python.exe -m pytest -q --tb=no
+& ../.venv/Scripts/python.exe -m pytest -q tests/test_public_matrix.py -m student -o addopts= --tb=no -rN
 & ../.venv/Scripts/python.exe -m lab8.benchmark --shapes workflow,single,orchestrator,swarm --cases data/public_claims.jsonl --seeds 11,22,33,44,55 --out reports/benchmark.json
 & ../.venv/Scripts/python.exe -m lab8.crash_test --count 20 --out reports/crash.json
-```
-
-Kết quả kiểm tự động ngày 17/11/2026:
-
-| Hạng mục | Kết quả |
-| --- | --- |
-| Smoke | Pass |
-| Test riêng | 5 passed |
-| Ma trận student workflow | 62 passed, 245 deselected |
-| Cổng host | 59 passed, 248 deselected |
-| Benchmark workflow | 70/70 trial public; pass rate = pass^5 = 1.0 |
-| Seed min–max / variance | 1.0–1.0 / 0.0 |
-| Cost/success | 34.285714285714285 VND mô phỏng |
-| Bộ crash host | 20/20 |
-| Kiểm trực tiếp workflow crash/resume | 3/3 điểm; mỗi claim một refund và một audit committed |
-
-Nguồn số liệu benchmark: `src/reports/benchmark.json`; crash host:
-`src/reports/crash.json`. Run dẫn chứng: `R-workflow-C-014-s11`.
-Không đưa trace hoặc SQLite vào Git. Bộ crash 20/20 chủ yếu kiểm host;
-không trình bày nó như 20 ca crash riêng cho workflow.
-
-Hai shape single/orchestrator vẫn là stub, nên báo cáo so sánh hiện tại chỉ
-là mốc tích hợp ban đầu. Cần chạy lại sau khi các thành viên hoàn tất.
-
-Kiểm tra tích hợp đã chạy:
-
-```powershell
+& ../.venv/Scripts/python.exe -m lab8.benchmark --shapes swarm,swarm_verified --extra-shape swarm_verified=bonus.swarm_verified:run_claim --cases data/public_claims.jsonl --seeds 11,22,33,44,55 --out reports/ablation_verification.json
 & ../.venv/Scripts/python.exe -m lab8.check_submission
+& ../.venv/Scripts/python.exe -m lab8.smoke
 ```
 
-Kết quả: workflow pass 12/12 claim kiểm format ở seed 11; báo cáo benchmark,
-crash, nhãn ADR và bảng đóng góp được đọc đúng. Còn 3 FAIL của phần nhóm:
-`single` chưa triển khai, `orchestrator` chưa triển khai và `research_card.md`
-chưa điền. Có 1 WARN vì chưa commit, đúng yêu cầu hiện tại của thành viên.
-Sau khi nhận phần việc còn lại, chạy lại kiểm tra này và cập nhật báo cáo,
-ADR cùng hash trước khi nộp.
+| Hạng mục | Kết quả hiện tại |
+| --- | --- |
+| Security riêng | 10 passed, 5 failed, 0 skipped; đủ 15 ca |
+| Cổng host | 80 passed, 5 failed, 248 deselected |
+| Ma trận student đầy đủ | 186 passed, 62 failed; lỗi thuộc orchestrator |
+| Kiểm format bài nộp | 1 FAIL do orchestrator; 1 WARN do chưa commit |
+| Smoke | Pass |
+| Workflow / single benchmark | Mỗi shape 70/70 trial public |
+| Orchestrator benchmark | 0/70 vì còn stub |
+| Crash host | 20/20 |
+| Crash riêng workflow/single | Mỗi shape 3/3 cửa sổ crash/resume |
+| Ablation swarm → swarm_verified | 69/70 → 70/70; cost/success 49.57 → 48.72 |
+
+Năm lỗi security đều thuộc orchestrator chưa triển khai. Không báo cáo
+10/15 thành 15/15. Mức 20/20 của bộ crash host không thay cho bằng chứng
+crash từng shape. Bảng so sánh đầy đủ và giới hạn nằm trong group_report.md;
+phương pháp và nguồn nghiên cứu nằm trong research_card.md.
 
 ## 5. Công cụ AI đã dùng
 
-Codex hỗ trợ đọc cấu trúc repo, viết workflow và 5 test, chạy các lệnh kiểm
-tự động, sinh bằng chứng bằng công cụ của lab và soạn tài liệu tiếng Việt.
-Các số liệu ở trên lấy từ lần chạy thật, không sửa tay JSON. Máy chưa có
-Python trên PATH nên dùng Python 3.12.14 đi kèm ứng dụng để tạo `.venv`,
-cài đúng `src/requirements.txt` và chạy kiểm thử.
+Codex hỗ trợ đọc repo, phát hiện/gỡ xung đột, viết test và công cụ xuất báo
+cáo, chạy lệnh, tra bài gốc MAST và soạn tài liệu. Số liệu lấy từ lần chạy
+thật; JSON do CLI sinh, không chỉnh tay. Không sửa host/evaluator/config/data.
+Thành viên cần tự đọc và chạy lại để giải thích được ranh giới code/model,
+quote đầy đủ, ledger so với checkpoint và phạm vi quét trace trước khi nộp.
+Không khẳng định đã hoàn tất việc tự kiểm tra thủ công của thành viên.
 
 ## 6. Tự đánh giá
 
+Thành viên tự điền trải nghiệm và mức độ hiểu sau khi xem code/chạy lại.
+Không viết thay nhận xét cá nhân hoặc khẳng định hiểu phần chưa tự kiểm tra.

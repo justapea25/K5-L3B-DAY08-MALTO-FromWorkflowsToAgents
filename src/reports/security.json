@@ -1,0 +1,71 @@
+{
+  "command": "python -m pytest -q --tb=short tests/test_group_security.py -o addopts=",
+  "expected_cases": 15,
+  "count": 15,
+  "passed": 10,
+  "failed": 5,
+  "skipped": 0,
+  "pytest_exit_code": 1,
+  "cases": [
+    {
+      "name": "test_crash_resume_keeps_one_effect_and_audit[before_effect-workflow]",
+      "status": "passed"
+    },
+    {
+      "name": "test_crash_resume_keeps_one_effect_and_audit[before_effect-single]",
+      "status": "passed"
+    },
+    {
+      "name": "test_crash_resume_keeps_one_effect_and_audit[before_effect-orchestrator]",
+      "status": "failure"
+    },
+    {
+      "name": "test_crash_resume_keeps_one_effect_and_audit[after_effect_before_checkpoint-workflow]",
+      "status": "passed"
+    },
+    {
+      "name": "test_crash_resume_keeps_one_effect_and_audit[after_effect_before_checkpoint-single]",
+      "status": "passed"
+    },
+    {
+      "name": "test_crash_resume_keeps_one_effect_and_audit[after_effect_before_checkpoint-orchestrator]",
+      "status": "failure"
+    },
+    {
+      "name": "test_crash_resume_keeps_one_effect_and_audit[after_checkpoint-workflow]",
+      "status": "passed"
+    },
+    {
+      "name": "test_crash_resume_keeps_one_effect_and_audit[after_checkpoint-single]",
+      "status": "passed"
+    },
+    {
+      "name": "test_crash_resume_keeps_one_effect_and_audit[after_checkpoint-orchestrator]",
+      "status": "failure"
+    },
+    {
+      "name": "test_results_traces_and_stdout_do_not_leak_secret_or_pii[workflow]",
+      "status": "passed"
+    },
+    {
+      "name": "test_results_traces_and_stdout_do_not_leak_secret_or_pii[single]",
+      "status": "passed"
+    },
+    {
+      "name": "test_results_traces_and_stdout_do_not_leak_secret_or_pii[orchestrator]",
+      "status": "failure"
+    },
+    {
+      "name": "test_trace_matches_current_run_including_early_returns[workflow]",
+      "status": "passed"
+    },
+    {
+      "name": "test_trace_matches_current_run_including_early_returns[single]",
+      "status": "passed"
+    },
+    {
+      "name": "test_trace_matches_current_run_including_early_returns[orchestrator]",
+      "status": "failure"
+    }
+  ]
+}

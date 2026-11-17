@@ -6,15 +6,15 @@
 - Lớp: L3B
 - Repo nhóm: `K5-L3B-DAY08-MALTO-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
 - URL repo: https://github.com/justapea25/K5-L3B-DAY08-MALTO-FromWorkflowsToAgents
-- Nhánh làm việc hiện tại: `main`; nhánh nộp và commit chốt: nhóm xác nhận sau khi tích hợp.
+- Nhánh làm việc hiện tại: `dev`; commit chốt: nhóm xác nhận sau khi tích hợp và kiểm thử xanh.
 
 ## Thành viên
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 | Nguyễn Xuân Khánh Linh | 2A202603801 | nxklinh@gmail.com | [linkiewinkie](https://github.com/linkiewinkie) | workflow + integration |
-|   2 |        |      |       |        |         |
-|   3 |        |      |       |        |         |
+|   1 | Nguyễn Xuân Khánh Linh | 2A202603801 | nxklinh@gmail.com | [linkiewinkie](https://github.com/linkiewinkie) | durability, security + eval |
+|   2 | Dau Hoang Minh | 2A202604011 | 26ai.minhdh4@vinuni.edu.vn | [justapea25](https://github.com/justapea25) | workflow + integration |
+|   3 | Le The Anh | 2A202603983 | 26ai.anhlt5@vinuni.edu.vn | [LETHESHIYING](https://github.com/LETHESHIYING) | single agent |
 |   4 |        |      |       |        |         |
 
 Gợi ý chia vai:
@@ -28,7 +28,9 @@ Gợi ý chia vai:
 
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
-| Nguyễn Xuân Khánh Linh | workflow + integration | | `src/tests/test_group_workflow.py`: injection, claim không tồn tại, thiếu order_id, T14 top-up, T14 retry (5 test) |
+| Nguyễn Xuân Khánh Linh | durability, security + eval | Chưa commit phần security/eval; thành viên tự điền hash sau khi xem thay đổi | `src/tests/test_group_security.py`: 15 ca, gồm 9 crash/resume, 3 quét secret/PII, 3 trace; báo cáo và ablation trong `src/reports/` |
+| Dau Hoang Minh | workflow + integration | `aa39dd7`, `c0b7841` | Workflow, helper `settle`/`finish_status` và test workflow theo báo cáo cá nhân |
+| Le The Anh | single agent | `7390aaa`, `1adafcb` | Single agent và test single theo báo cáo cá nhân |
 
 ## Cá nhân
 
@@ -46,15 +48,16 @@ Sao chép mục dưới đây cho từng thành viên.
 
 ### Phần việc phụ trách
 
-- Workflow và tích hợp; báo cáo cá nhân: [2A202603801_NguyenXuanKhanhLinh.md](report/team/2A202603801_NguyenXuanKhanhLinh.md).
+- Durability, security và evaluation; báo cáo cá nhân: [2A202603801_NguyenXuanKhanhLinh.md](report/team/2A202603801_NguyenXuanKhanhLinh.md).
 
 ### Đóng góp cụ thể
 
-- Triển khai `src/lab8/shapes/workflow.py`, thêm 5 test riêng, chạy kiểm thử và sinh bằng chứng public bằng công cụ có sẵn.
+- Viết 15 ca security, công cụ xuất kết quả pytest thành JSON, research card R2 và báo cáo nhóm; chạy lại benchmark/crash sau tích hợp.
+- Sửa dấu xung đột bị commit trong workflow và test workflow, giữ helper mà single sử dụng và giữ các test của cả hai nhánh.
 
 ### Bằng chứng
 
-- Test riêng: 5/5; ma trận student workflow: 62/62; cổng host: 59/59.
-- `src/reports/benchmark.json`: workflow 70/70 trial public trên 5 seed.
-- `src/reports/crash.json`: bộ crash host 20/20; kiểm trực tiếp workflow qua 3 điểm crash/resume.
-- `report/team/decision_adr.md`: quyết định tạm thời, chờ tích hợp hai shape còn lại.
+- `src/reports/security.json`: kết quả 15 ca, không bỏ qua shape chưa triển khai.
+- `src/reports/benchmark.json`, `src/reports/crash.json`: bằng chứng do CLI của lab sinh ra.
+- `src/reports/ablation_verification.json`: đối chứng swarm với biến thể chỉ tắt nhánh ghi đè dữ kiện DB từ ticket.
+- `report/team/research_card.md`, `group_report.md`: phương pháp, số liệu và giới hạn; ADR vẫn chờ hoàn tất orchestrator.

@@ -30,7 +30,6 @@ ones. `lab8.trace.Trace` does this; your own tracer is fine if it matches.
 from __future__ import annotations
 
 import sqlite3
-<<<<<<< Updated upstream
 from typing import Any
 
 from lab8.db import connect
@@ -42,15 +41,6 @@ from lab8.tools import compute_compensation, get_claim_view, lookup_order, tool_
 from lab8.trace import Trace
 
 SHAPE = "workflow"
-=======
-
-from lab8.db import connect
-from lab8.durability import issue_refund
-from lab8.schemas import Budget, RunResult, make_run_id
-from lab8.shapes.common import finish
-from lab8.tools import compute_compensation, get_claim_view, lookup_order, tool_cost
-from lab8.trace import Trace
->>>>>>> Stashed changes
 
 
 def run_claim(
@@ -69,7 +59,6 @@ def run_claim(
 
 def _run(conn: sqlite3.Connection, claim_id: str, *, seed: int, crash_at: str | None) -> RunResult:
     budget = Budget()
-<<<<<<< Updated upstream
     trace = Trace(make_run_id(SHAPE, claim_id, seed))
 
     # 1. Claim view: allowlisted columns only (no parent_secret, no raw_headers).
@@ -168,55 +157,3 @@ def settle(
         return finish_status(conn, shape, claim_id, seed, "resolved", proposal, budget, trace, None)
     status = "failed" if outcome["conflict"] else "denied"
     return finish_status(conn, shape, claim_id, seed, status, proposal, budget, trace, outcome["reason"])
-=======
-    trace = Trace(make_run_id("workflow", claim_id, seed))
-
-    def done(status: str, proposal: int = 0, reason: str | None = None) -> RunResult:
-        trace.add("decision", {"status": status, "reason": reason})
-        return finish(
-            conn,
-            shape="workflow",
-            claim_id=claim_id,
-            seed=seed,
-            status=status,
-            proposal_amount=proposal,
-            budget=budget,
-            trace=trace,
-            error_reason=reason,
-        )
-
-    budget.add_tool(tool_cost())
-    claim = get_claim_view(conn, claim_id)
-    trace.add("claim_lookup", {"found": claim["found"]})
-    if not claim["found"]:
-        return done("failed", reason="unknown_claim")
-    if not claim["order_id"]:
-        return done("needs_info", reason="missing_order_id")
-
-    # Ticket là dữ liệu không đáng tin cậy, không dùng để chọn đơn hay số tiền.
-    budget.add_tool(tool_cost())
-    order_view = lookup_order(conn, claim["order_id"], claim["principal_id"])
-    trace.add("order_lookup", {"visible": order_view["visible"], "reason": order_view["reason"]})
-    if not order_view["visible"]:
-        return done("escalated", reason=order_view["reason"])
-
-    budget.add_tool(tool_cost())
-    quote = compute_compensation(conn, order_view["order"])
-    proposal = int(quote["amount_vnd"])
-    trace.add("quote", quote)
-    if proposal <= 0:
-        return done("denied", reason=quote["reason"])
-
-    # Truyền quote đầy đủ; host tự kiểm approval và trừ khoản đã hoàn trước đó.
-    budget.add_tool(tool_cost())
-    trace.add("refund_request", {"proposal_amount": proposal})
-    try:
-        outcome = issue_refund(conn, claim_id, proposal, crash_at=crash_at)
-    finally:
-        # Ghi trace cả khi InjectedCrash truyền ra ngoài để bộ kiểm thử chạy lại.
-        trace.write()
-    trace.add("refund_result", {"ok": outcome["ok"], "reason": outcome["reason"]})
-    if not outcome["ok"]:
-        return done("failed" if outcome["conflict"] else "denied", proposal, outcome["reason"])
-    return done("resolved", proposal)
->>>>>>> Stashed changes
