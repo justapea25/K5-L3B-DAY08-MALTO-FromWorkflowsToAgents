@@ -10,10 +10,10 @@ from pathlib import Path
 import pytest
 
 from lab8.db import connect, init_store
-from lab8.metrics import trial_pass
 from lab8.durability import committed_audit_count, get_refund
-from lab8.shapes.workflow import run_claim
+from lab8.metrics import trial_pass
 from lab8.shapes import SHAPES
+from lab8.shapes.workflow import run_claim
 from tests.conftest import BY_ID, CLAIMS, WORLD
 
 SHAPE = "workflow"
@@ -84,6 +84,7 @@ def test_workflow_missing_order_id_needs_info_without_ledger(tmp_path):
     assert result.refund_effects == []
 
 
+# --- Đầu vào không tin cậy, nhánh trả sớm và gọi lại T14 (trên fixture public_db) ---
 
 
 def _trace(result):

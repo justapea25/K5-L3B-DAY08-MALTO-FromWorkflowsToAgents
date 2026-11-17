@@ -6,16 +6,16 @@
 - Lớp: L3B
 - Repo nhóm: `K5-L3B-DAY08-MALTO-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
 - URL repo: https://github.com/justapea25/K5-L3B-DAY08-MALTO-FromWorkflowsToAgents
-- Nhánh làm việc hiện tại: `dev`; commit chốt: nhóm xác nhận sau khi tích hợp và kiểm thử xanh.
+- Nhánh làm việc hiện tại: `dev`; commit chốt: chờ thành viên hoàn tất merge sau khi kiểm thử.
 
 ## Thành viên
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 | Nguyễn Xuân Khánh Linh | 2A202603801 | nxklinh@gmail.com | [linkiewinkie](https://github.com/linkiewinkie) | durability, security + eval |
-|   2 | Dau Hoang Minh | 2A202604011 | 26ai.minhdh4@vinuni.edu.vn | [justapea25](https://github.com/justapea25) | workflow + integration |
-|   3 | Le The Anh | 2A202603983 | 26ai.anhlt5@vinuni.edu.vn | [LETHESHIYING](https://github.com/LETHESHIYING) | single agent |
-|   4 |        |      |       |        |         |
+|   1 | Đặng Minh Thu | 2A202604009 | 26ai.thudm@vinuni.edu.vn | minhthu27 | Orchestrator + handoff (shape C) |
+|   2 | Nguyễn Xuân Khánh Linh | 2A202603801 | nxklinh@gmail.com | [linkiewinkie](https://github.com/linkiewinkie) | Durability, security + eval |
+|   3 | Đậu Hoàng Minh | 2A202604011 | 26ai.minhdh4@vinuni.edu.vn | [justapea25](https://github.com/justapea25) | Workflow (shape A) + tích hợp repo |
+|   4 | Le The Anh | 2A202603983 | 26ai.anhlt5@vinuni.edu.vn | [LETHESHIYING](https://github.com/LETHESHIYING) | Single agent (shape B) |
 
 Gợi ý chia vai:
 
@@ -28,9 +28,10 @@ Gợi ý chia vai:
 
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
-| Nguyễn Xuân Khánh Linh | durability, security + eval | Chưa commit phần security/eval; thành viên tự điền hash sau khi xem thay đổi | `src/tests/test_group_security.py`: 15 ca, gồm 9 crash/resume, 3 quét secret/PII, 3 trace; báo cáo và ablation trong `src/reports/` |
-| Dau Hoang Minh | workflow + integration | `aa39dd7`, `c0b7841` | Workflow, helper `settle`/`finish_status` và test workflow theo báo cáo cá nhân |
-| Le The Anh | single agent | `7390aaa`, `1adafcb` | Single agent và test single theo báo cáo cá nhân |
+| Đặng Minh Thu | Orchestrator + handoff (shape C) | `830a54c`: orchestrator.py, handoff allowlist, trace handoff đã làm sạch | `tests/test_group_orchestrator.py`: `test_orchestrator_traces_only_sanitized_readonly_handoff`, `test_handoff_refuses_write_tool`, `test_handoff_drops_parent_context_from_facts` |
+| Nguyễn Xuân Khánh Linh | Durability, security + eval | `9ecf01f`: bộ 15 ca security, công cụ xuất JSON, research card R2 và báo cáo; `b4076c8`: kiểm ledger/injection/T14 trước đó | `src/tests/test_group_security.py`: 9 ca crash/resume, 3 quét secret/PII/stdout, 3 trace; giữ bộ test security từ dev trong `test_group_security_regressions.py` |
+| Đậu Hoàng Minh | Workflow (shape A) + tích hợp repo | `aa39dd7`: `workflow.py` và hàm dùng chung `settle()` / `finish_status()`; `28f72f0`, `099e004`: gộp nhánh thành viên vào `dev`, xử lý conflict | `src/tests/test_group_workflow.py` (`c0b7841`): `test_workflow_ignores_injection_and_lying_delay_in_ticket`, `test_workflow_unknown_claim_fails_without_exception`, `test_workflow_retry_is_idempotent_and_proposal_stays_full_quote`, `test_workflow_missing_order_id_needs_info_without_ledger` |
+| Le The Anh | Single agent (shape B) | `7390aaa`: cùng Codex hoàn thiện single agent, tính quote một lần và chuyển quote đầy đủ cho host; `1adafcb`: bổ sung test | `src/tests/test_group_single.py`: `test_single_computes_compensation_once` (resolved và denied), thực hiện cùng Codex |
 
 ## Cá nhân
 
@@ -48,16 +49,37 @@ Sao chép mục dưới đây cho từng thành viên.
 
 ### Phần việc phụ trách
 
-- Durability, security và evaluation; báo cáo cá nhân: [2A202603801_NguyenXuanKhanhLinh.md](report/team/2A202603801_NguyenXuanKhanhLinh.md).
+- Durability, security và eval; báo cáo cá nhân: [2A202603801_NguyenXuanKhanhLinh.md](report/team/2A202603801_NguyenXuanKhanhLinh.md).
 
 ### Đóng góp cụ thể
 
-- Viết 15 ca security, công cụ xuất kết quả pytest thành JSON, research card R2 và báo cáo nhóm; chạy lại benchmark/crash sau tích hợp.
-- Sửa dấu xung đột bị commit trong workflow và test workflow, giữ helper mà single sử dụng và giữ các test của cả hai nhánh.
+- Commit `9ecf01f`: viết bộ 15 ca security riêng, công cụ `bonus.security_eval`, research card R2 và biến thể swarm_verified; sinh báo cáo bằng lệnh chạy thật.
+- Khi gộp với `dev`, giữ cả bộ security của đội trong `test_group_security_regressions.py` và giữ research card R4 bổ sung.
+- Thêm 5 test kiểm ledger và idempotency (T14 chỉ hoàn phần chênh, gọi lại vẫn một refund và một audit), chống injection và không lộ marker trong kết quả, trace, stdout.
+- Chạy kiểm thử và sinh bằng chứng public (`benchmark.json`, `crash.json`) bằng công cụ có sẵn; kiểm trực tiếp crash/resume ở 3 điểm crash.
+- Viết một bản workflow riêng trong `b4076c8`. Khi tích hợp, nhóm giữ bản `workflow.py` có `settle()` vì single và orchestrator cần import hàm này.
 
 ### Bằng chứng
 
-- `src/reports/security.json`: kết quả 15 ca, không bỏ qua shape chưa triển khai.
-- `src/reports/benchmark.json`, `src/reports/crash.json`: bằng chứng do CLI của lab sinh ra.
-- `src/reports/ablation_verification.json`: đối chứng swarm với biến thể chỉ tắt nhánh ghi đè dữ kiện DB từ ticket.
-- `report/team/research_card.md`, `group_report.md`: phương pháp, số liệu và giới hạn; ADR vẫn chờ hoàn tất orchestrator.
+- Commit `9ecf01f`; `src/reports/security.json`, `ablation_verification.json` và research card R2.
+- Commit `b4076c8`; 5 test riêng trong `src/tests/test_group_workflow.py` đều pass.
+- `src/reports/crash.json`: bộ crash host 20/20.
+
+## 2A202604011_DauHoangMinh
+
+### Phần việc phụ trách
+
+- Workflow (shape A) và tích hợp repo; báo cáo cá nhân: [2A202604011_DauHoangMinh.md](report/team/2A202604011_DauHoangMinh.md).
+
+### Đóng góp cụ thể
+
+- Viết `src/lab8/shapes/workflow.py` theo các bước cố định: claim view → kiểm `order_id` → `lookup_order` → `compute_compensation` → `issue_refund` với quote đầy đủ.
+- Viết hàm dùng chung `settle()` / `finish_status()` trong `workflow.py`, được single và orchestrator import. Đặt trong file shape vì grader chỉ chép 3 file shape.
+- Thêm 4 test workflow: injection và ticket ghi sai số ngày trễ, claim không tồn tại, gọi lại T14, thiếu `order_id`.
+- Tạo repo nhóm, gộp nhánh của các thành viên vào `dev` và xử lý conflict (`single.py`, `TEAM.md`, ADR, file bị commit kèm dấu conflict).
+
+### Bằng chứng
+
+- Commit: `aa39dd7` (workflow), `c0b7841` (test), `28f72f0` và `099e004` (gộp nhánh).
+- Ma trận student workflow: 62/62; cổng host sau khi gộp: 89 passed.
+- `src/reports/benchmark.json`: workflow pass rate 1.000, pass^5 1.000, cost/success 28.66 VND mô phỏng.

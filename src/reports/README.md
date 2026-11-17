@@ -21,9 +21,10 @@ Nếu chưa activate môi trường ở gốc repo, thay `python` bằng
 `security_eval` chạy pytest thật và trả mã khác 0 nếu có ca thất bại.
 Không đổi failure thành passed hay skip shape chưa hoàn tất. `security.json`
 chỉ lưu tên ca/trạng thái, không chép traceback chứa giá trị fixture.
-Hiện có 10/15 ca đạt; 5 ca orchestrator còn thất bại vì shape này là stub.
-Sau khi thành viên phụ trách hoàn tất, chạy lại security, toàn bộ pytest,
-benchmark, crash suite và `lab8.check_submission` trước khi chốt bài.
+Sau khi gộp orchestrator từ đội, bộ riêng đạt 15/15. Bộ 15 ca bổ sung của
+nhánh đội được giữ trong `tests/test_group_security_regressions.py` và cùng
+chạy trong cổng host (104 passed). Ma trận student đạt 248/248. Trước khi
+chốt hash merge, kiểm lại `lab8.check_submission`.
 
 `ablation_verification.json` phục vụ research card; không thay kết quả của
 shape swarm chính thức trong `benchmark.json`. Mô tả biến can thiệp và giới

@@ -35,9 +35,10 @@ Workflow/integration thuộc Dau Hoang Minh; single thuộc Le The Anh.
   finish_status/settle mà single dùng và giữ test cả hai nhánh; không nhận
   tác giả implementation workflow/single của đồng đội.
 
-Bản sửa security/eval hiện chưa commit theo yêu cầu của thành viên. Hash
-`b4076c8` là mốc nhận về trước khi sửa, không phải hash bằng chứng cho bản mới.
-Sau khi tự xem thay đổi và commit, cần bổ sung hash vào TEAM.md và ADR.
+Commit phần security/eval: `9ecf01f`. Commit `b4076c8` là phần kiểm thử
+ledger/injection trước đó. Lần merge hiện tại gộp thêm `0f5dd9f` của đội,
+giữ orchestrator mới, bộ test security bổ sung và research card R4 của đội.
+Chưa tạo commit merge; cần tự điền hash bản merge vào ADR sau khi hoàn tất.
 
 ## 4. Bằng chứng
 
@@ -56,19 +57,20 @@ Ngày chạy: 17/11/2026. Lệnh chạy trong `src/`:
 
 | Hạng mục | Kết quả hiện tại |
 | --- | --- |
-| Security riêng | 10 passed, 5 failed, 0 skipped; đủ 15 ca |
-| Cổng host | 80 passed, 5 failed, 248 deselected |
-| Ma trận student đầy đủ | 186 passed, 62 failed; lỗi thuộc orchestrator |
-| Kiểm format bài nộp | 1 FAIL do orchestrator; 1 WARN do chưa commit |
+| Security riêng | 15 passed, 0 failed, 0 skipped |
+| Cổng host | 104 passed, 248 deselected; gồm cả 15 ca bổ sung từ đội |
+| Ma trận student đầy đủ | 248 passed |
+| Kiểm format bài nộp | 0 FAIL, 1 WARN do còn chờ commit merge |
 | Smoke | Pass |
 | Workflow / single benchmark | Mỗi shape 70/70 trial public |
-| Orchestrator benchmark | 0/70 vì còn stub |
+| Orchestrator benchmark | 70/70 sau tích hợp |
 | Crash host | 20/20 |
-| Crash riêng workflow/single | Mỗi shape 3/3 cửa sổ crash/resume |
+| Crash riêng ba shape | Mỗi shape 3/3 cửa sổ crash/resume |
 | Ablation swarm → swarm_verified | 69/70 → 70/70; cost/success 49.57 → 48.72 |
 
-Năm lỗi security đều thuộc orchestrator chưa triển khai. Không báo cáo
-10/15 thành 15/15. Mức 20/20 của bộ crash host không thay cho bằng chứng
+Ở mốc `9ecf01f`, security đạt 10/15 vì orchestrator còn stub. Sau khi
+gộp code orchestrator của đội và chạy lại thật, bộ này đạt 15/15; không sửa
+kết quả JSON bằng tay. Mức 20/20 của bộ crash host không thay cho bằng chứng
 crash từng shape. Bảng so sánh đầy đủ và giới hạn nằm trong group_report.md;
 phương pháp và nguồn nghiên cứu nằm trong research_card.md.
 

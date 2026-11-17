@@ -1,5 +1,9 @@
 # Research card — R2: kiểm chứng dữ kiện trong swarm
 
+Bản R2 là phiếu chính. Phần R4 từ nhánh đội được giữ tại
+[research_card_r4.md](research_card_r4.md), cùng báo cáo đối chiếu
+`src/reports/ablation_workflow_vs_single.json`.
+
 ## Phiếu của nhóm
 
 | Field | Hướng dẫn | Nhóm điền |
