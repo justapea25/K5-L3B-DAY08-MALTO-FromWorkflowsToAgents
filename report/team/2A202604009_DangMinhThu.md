@@ -20,7 +20,7 @@ Công việc C: **shape C `orchestrator`** (`src/lab8/shapes/orchestrator.py`) v
 - **Crash:** `crash_at` được chuyển thẳng xuống `settle()`. Khi gặp `InjectedCrash`, trace vẫn được ghi trước khi ném lại lỗi, nên run bị crash vẫn kiểm tra được.
 - **Test (shape C):** `test_orchestrator_traces_only_sanitized_readonly_handoff` kiểm tra đúng một event handoff, field nằm trong `ALLOWED_FIELDS`, tool nằm trong `READONLY_TOOLS`, không có `issue_refund`, và `facts == {}`. `test_handoff_refuses_write_tool` kiểm tra handoff từ chối tool ghi. `test_handoff_drops_parent_context_from_facts` kiểm tra `phone` và `ticket` bị loại khỏi `facts`.
 - **Số đo của shape C** (14 claim × 5 seed, `src/reports/benchmark.json`): pass rate 1.000, pass^5 1.000, variance 0, cost/success 57.01 VND, trung bình 2.71 model call và 5.5 tool call mỗi trial. Orchestrator đắt hơn workflow (28.66) gần gấp đôi mà không pass hơn, nên nhóm chọn workflow. Phần này nằm trong `decision_adr.md`.
-- **Commit chính:** `<điền hash sau khi commit>`
+- **Commit chính:** `830a54c`
 
 ## 4. Bằng chứng
 
