@@ -15,7 +15,7 @@ Ví dụ một dòng đã điền: `- Shape chọn: workflow`, `- Crash safety: 
 
 ## Vì sao shape này
 
-Trên cùng corpus public (14 claim), cùng seed `11,22,33,44,55` và cùng bảng giá mô phỏng, ba shape nhóm viết đều đạt pass rate 1.000, pass^5 1.000 và variance 0. Swarm đạt 0.986 / 0.929 vì trial C-002 seed 55 tin số ngày trễ ghi trong ticket. Khi pass rate bằng nhau, workflow có cost/success thấp nhất: 28.66 VND, so với 47.87 (single), 57.01 (orchestrator) và 49.57 (swarm). Workflow trung bình 0.86 model call mỗi trial, so với 5.5 của single. Mọi quyết định về tiền, approval và idempotency đã nằm trong code (`compute_compensation` và host `issue_refund`), nên thêm tự chủ cho model không cải thiện được độ đúng mà chỉ làm tăng chi phí và bề mặt rủi ro. Vì vậy nhóm chọn kiến trúc ít tự chủ nhất mà vẫn làm được việc.
+Trên cùng corpus public (14 claim), cùng seed `11,22,33,44,55` và cùng bảng giá mô phỏng, ba shape nhóm viết đều đạt pass rate 1.000, pass^5 1.000 và variance 0. Swarm đạt 0.986 / 0.929 vì trial C-002 seed 55 tin số ngày trễ ghi trong ticket. Khi pass rate bằng nhau, workflow có cost/success thấp nhất: 28.66 VND, so với 39.30 (single), 57.01 (orchestrator) và 49.57 (swarm). Workflow trung bình 0.86 model call và 2.79 tool call mỗi trial, so với 5.5 và 3.64 của single. Trên bộ hidden (40 claim × 5 seed, chấm bằng nhãn giảng viên cho phép dùng), thứ tự vẫn giữ nguyên: workflow, single, orchestrator đều 1.000 / 1.000, với cost/success lần lượt 29.86, 41.27 và 59.88; swarm 0.970 / 0.850, cost/success 52.49. Mọi quyết định về tiền, approval và idempotency đã nằm trong code (`compute_compensation` và host `issue_refund`), nên thêm tự chủ cho model không cải thiện được độ đúng mà chỉ làm tăng chi phí và bề mặt rủi ro. Vì vậy nhóm chọn kiến trúc ít tự chủ nhất mà vẫn làm được việc.
 
 ## Có đáng đổi lấy multi-agent không
 
@@ -35,4 +35,4 @@ Trace được ghi vào `traces/<run_id>.json`, ngay chỗ grader quét, và kh�
 
 ## Giới hạn
 
-MockLLM không phải model sản xuất: hành vi của nó tất định theo seed, nên variance 0 của ba shape nhóm viết không chứng minh được độ ổn định với một LLM thật. Latency để `unavailable`. Cost là giá mô phỏng trong `config/pricing.yaml`, không phải hóa đơn API. Kết luận chỉ dựa trên 14 claim public; pass rate hidden do grader của giảng viên chấm. Không sửa JSON cho đủ 0.75.
+MockLLM không phải model sản xuất: hành vi của nó tất định theo seed, nên variance 0 của ba shape nhóm viết không chứng minh được độ ổn định với một LLM thật. Latency để `unavailable`. Cost là giá mô phỏng trong `config/pricing.yaml`, không phải hóa đơn API. Số chính trong ADR lấy từ 14 claim public; kết quả trên bộ hidden do nhóm tự chấm bằng nhãn giảng viên cho phép dùng, còn điểm hidden chính thức do grader của giảng viên chấm. Không sửa JSON cho đủ 0.75.
