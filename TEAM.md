@@ -15,7 +15,7 @@
 |   1 | Đặng Minh Thu | 2A202604009 | 26ai.thudm@vinuni.edu.vn | minhthu27 | Orchestrator + handoff (shape C) |
 |   2 | Nguyễn Xuân Khánh Linh | 2A202603801 | nxklinh@gmail.com | [linkiewinkie](https://github.com/linkiewinkie) | Durability, security + eval |
 |   3 | Đậu Hoàng Minh | 2A202604011 | 26ai.minhdh4@vinuni.edu.vn | [justapea25](https://github.com/justapea25) | Workflow (shape A) + tích hợp repo |
-|   4 | Le The Anh | 2A202603983 |  | [LETHESHIYING](https://github.com/LETHESHIYING) | Single agent (shape B) |
+|   4 | Le The Anh | 2A202603983 | 26ai.anhlt5@vinuni.edu.vn | [LETHESHIYING](https://github.com/LETHESHIYING) | Single agent (shape B) |
 
 Gợi ý chia vai:
 
