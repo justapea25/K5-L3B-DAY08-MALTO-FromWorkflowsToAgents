@@ -18,5 +18,7 @@ student_drop/
 src/reports/hidden_grade.json
 src/reports/bonus_hidden.json
 
+playground/
+
 # Instructor-only hidden pack. Never push it to this repo.
 src/eval/instructor/
