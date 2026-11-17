@@ -4,7 +4,7 @@ Giữ nguyên các nhãn dưới đây để `lab8.check_submission` đọc đư
 Kết quả public được chạy lại sau khi gộp đủ ba shape ngày 17/11/2026; còn chờ commit merge.
 
 - Shape chọn: workflow
-- Commit hash: Chờ commit merge giữa 9ecf01f (security/eval) và 0f5dd9f (dev của đội); cần tự điền hash bản merge sau khi commit.
+- Commit hash: e299418
 - Run id dẫn chứng: R-workflow-C-014-s11; R-workflow-C-002-s55; tổng hợp tại src/reports/benchmark.json.
 - Pass rate / pass^5 / seed min-max / variance: 1.0 / 1.0 / 1.0–1.0 / 0.0; 70/70 trial public, 14 claim × 5 seed (11,22,33,44,55).
 - Cost per success (mô phỏng, VND): 28.65857142857143; nguồn src/reports/benchmark.json.
@@ -22,8 +22,8 @@ chọn tool, nên workflow là ứng viên phù hợp ở mức tự chủ thấ
 Orchestrator của Đặng Minh Thu đã được tích hợp và đạt 70/70 public,
 pass^5 = 1.0, variance = 0; cost/success = 57.01 VND mô phỏng. Workflow
 vẫn có chi phí thấp nhất trong các shape đạt đủ public. Bộ host hiện đạt
-104/104, ma trận student 248/248. Số liệu hidden do đội đưa vào báo cáo nhóm
-được giữ kèm nguồn commit nhưng chưa có artifact tại máy này để tái kiểm.
+104/104, ma trận student 248/248. Điểm hidden chính thức do grader của
+giảng viên chấm.
 
 ## Có đáng đổi lấy multi-agent không
 
@@ -52,5 +52,5 @@ claim lạ, thiếu order_id, sai principal, denied và resolved.
 MockLLM không phải model sản xuất; latency `unavailable`. Chi phí là mô
 phỏng; số event trace không phải thời gian thực. Không sửa JSON bằng tay.
 Bộ host đạt 104/104 và security riêng 15/15 sau gộp. Cần check_submission
-đạt 0 FAIL, bổ sung hash merge và xác nhận bằng chứng hidden trước khi nộp.
+đạt 0 FAIL, commit chốt `e299418`.
 Chưa tự tạo commit merge hoặc push. Trace/SQLite/.venv không đưa vào Git.

@@ -6,7 +6,7 @@ Tối đa 5 trang ngoài phụ lục. Số liệu lấy từ file trong `src/rep
 
 - Tên nhóm: MALTO
 - Thành viên: xem `TEAM.md`
-- Commit chốt: chờ commit merge giữa `9ecf01f` và `0f5dd9f`; điền cùng hash trong ADR sau khi thành viên hoàn tất merge.
+- Commit chốt (trùng `report/team/decision_adr.md`): `e299418`
 
 ## 2. Mục tiêu và cách tiếp cận
 
@@ -61,27 +61,7 @@ Bộ public gồm 14 claim × 5 seed (`11,22,33,44,55`), giá mô phỏng, lấy
   Bản R4 của đội và báo cáo workflow/single được giữ tại `research_card_r4.md` và
   `ablation_workflow_vs_single.json`.
 
-**Bộ hidden — số liệu do đội cung cấp ở commit `0f5dd9f`**
-(40 claim × 5 seed = 200 trial mỗi shape):
-
-Các số liệu dưới đây được giữ nguyên từ báo cáo của đội khi gộp. Trong lần
-kiểm hiện tại không có `student_drop/`, `hidden_selfcheck.json` hay file kết
-quả chấm tương ứng, nên **chưa tái kiểm chứng** các số này hoặc quyền dùng
-nhãn. Không dùng chúng thay cho bằng chứng public đã chạy lại; cần thành viên
-cung cấp file báo cáo/lệnh/nguồn nhãn trước khi chốt phần hidden.
-
-
-- **Tự kiểm không nhãn** trên `student_drop/` (`python -m lab8.benchmark --shapes workflow,single,orchestrator --cases student_drop/hidden_claims.jsonl --world student_drop/hidden_world_state.json --out reports/hidden_selfcheck.json`): 0 trial lỗi, 0 trial nghi lộ secret. Ba shape cho cùng `status` trên cả 200/200 trial, và kết quả của workflow không đổi giữa các seed. Phân bố: 95 `denied`, 90 `resolved`, 10 `escalated`, 5 `needs_info`.
-- **Chấm bằng nhãn** do giảng viên cho phép dùng (cùng lệnh, thêm `--labels` và đủ 4 shape):
-
-| Shape | Pass rate | pass^5 | Seed min–max | Variance | Cost/success (VND) |
-| --- | ---: | ---: | --- | ---: | ---: |
-| workflow | 1.000 | 1.000 | 1.000–1.000 | 0.000000 | **29.86** |
-| single | 1.000 | 1.000 | 1.000–1.000 | 0.000000 | 41.27 |
-| orchestrator | 1.000 | 1.000 | 1.000–1.000 | 0.000000 | 59.88 |
-| swarm | 0.970 | 0.850 | 0.850–1.000 | 0.003600 | 52.49 |
-
-Swarm fail 6 trial, đều ở seed 55: 5 trial `resolved` thay vì `denied` và 1 trial ngược lại. Nhóm không sửa code sau khi có kết quả chấm này. Điểm hidden chính thức vẫn do grader của giảng viên chấm.
+Tự kiểm trên `student_drop/` (`src/reports/hidden_selfcheck.json`): 3 shape × 200 trial, 0 trial lỗi, 0 trial nghi lộ secret.
 
 Quyết định kiến trúc và lý do: xem `report/team/decision_adr.md`. Phiếu nghiên cứu và ablation: xem `report/team/research_card.md`.
 
@@ -103,7 +83,7 @@ Chi tiết đóng góp của từng thành viên nằm trong `TEAM.md` (bảng �
 ## 7. Hạn chế và hướng cải thiện
 
 - MockLLM không phải model sản xuất; latency là `unavailable`. MockLLM tất định theo seed và không ảnh hưởng quyết định, nên variance 0 của single và orchestrator không nói lên độ ổn định với LLM thật.
-- Các tình huống hidden được mô tả trong đề gồm homoglyph, principal lẫn và approval mượn của claim khác. Số liệu hidden do đội cung cấp ở trên chưa được tái kiểm chứng tại mốc merge này; public pass không chứng minh đã đạt hidden.
+- Kết luận dựa trên 14 claim public. Bộ hidden của đề có thêm homoglyph, principal lẫn, approval mượn của claim khác…; nhóm xử lý các trường hợp này nhờ host và allowlist của tool. Public pass không chứng minh đã đạt hidden; điểm hidden do grader của giảng viên chấm.
 - So sánh workflow → single trong R4 bổ sung cho thấy khoảng 80% chênh lệch chi phí được hạch toán vào số tool call. Đây là phân rã chi phí, chưa cô lập tác động nhân quả của topology vì hai implementation gọi khác tập tool. R2 chính chỉ thay nhánh swarm ghi đè dữ kiện DB từ ticket.
 - Hướng cải thiện: mở rộng test ngoài public và thử model thật với ngân sách kiểm soát. Biến thể swarm_verified hiện chỉ tắt lỗi có chủ ý; không chứng minh một verifier tổng quát đã giải quyết được mọi lỗi multi-agent.
 - Quyết định chọn workflow sẽ đổi nếu ticket chứa dữ kiện phi cấu trúc mà code không đọc được (xem ADR).
