@@ -35,51 +35,11 @@ Gợi ý chia vai:
 
 ## Cá nhân
 
-Mỗi thành viên đồng thời tạo một báo cáo riêng trong `report/` theo dạng:
+Mỗi thành viên có báo cáo riêng trong `report/team/`:
 
-```text
-report/team/MSSV_HoTen.md
-```
-
-Ví dụ: `report/team/20241234_NguyenVanAn.md`.
-
-Sao chép mục dưới đây cho từng thành viên.
-
-## 2A202603801_NguyenXuanKhanhLinh
-
-### Phần việc phụ trách
-
-- Durability, security và eval; báo cáo cá nhân: [2A202603801_NguyenXuanKhanhLinh.md](report/team/2A202603801_NguyenXuanKhanhLinh.md).
-
-### Đóng góp cụ thể
-
-- Commit `9ecf01f`: viết bộ 15 ca security riêng, công cụ `bonus.security_eval`, research card R2 và biến thể swarm_verified; sinh báo cáo bằng lệnh chạy thật.
-- Khi gộp với `dev`, giữ cả bộ security của đội trong `test_group_security_regressions.py` và giữ research card R4 bổ sung.
-- Thêm 5 test kiểm ledger và idempotency (T14 chỉ hoàn phần chênh, gọi lại vẫn một refund và một audit), chống injection và không lộ marker trong kết quả, trace, stdout.
-- Chạy kiểm thử và sinh bằng chứng public (`benchmark.json`, `crash.json`) bằng công cụ có sẵn; kiểm trực tiếp crash/resume ở 3 điểm crash.
-- Viết một bản workflow riêng trong `b4076c8`. Khi tích hợp, nhóm giữ bản `workflow.py` có `settle()` vì single và orchestrator cần import hàm này.
-
-### Bằng chứng
-
-- Commit `9ecf01f`; `src/reports/security.json`, `ablation_verification.json` và research card R2.
-- Commit `b4076c8`; 5 test riêng trong `src/tests/test_group_workflow.py` đều pass.
-- `src/reports/crash.json`: bộ crash host 20/20.
-
-## 2A202604011_DauHoangMinh
-
-### Phần việc phụ trách
-
-- Workflow (shape A) và tích hợp repo; báo cáo cá nhân: [2A202604011_DauHoangMinh.md](report/team/2A202604011_DauHoangMinh.md).
-
-### Đóng góp cụ thể
-
-- Viết `src/lab8/shapes/workflow.py` theo các bước cố định: claim view → kiểm `order_id` → `lookup_order` → `compute_compensation` → `issue_refund` với quote đầy đủ.
-- Viết hàm dùng chung `settle()` / `finish_status()` trong `workflow.py`, được single và orchestrator import. Đặt trong file shape vì grader chỉ chép 3 file shape.
-- Thêm 4 test workflow: injection và ticket ghi sai số ngày trễ, claim không tồn tại, gọi lại T14, thiếu `order_id`.
-- Tạo repo nhóm, gộp nhánh của các thành viên vào `dev` và xử lý conflict (`single.py`, `TEAM.md`, ADR, file bị commit kèm dấu conflict).
-
-### Bằng chứng
-
-- Commit: `aa39dd7` (workflow), `c0b7841` (test), `28f72f0` và `099e004` (gộp nhánh).
-- Ma trận student workflow: 62/62; cổng host sau khi gộp: 89 passed.
-- `src/reports/benchmark.json`: workflow pass rate 1.000, pass^5 1.000, cost/success 28.66 VND mô phỏng.
+| Thành viên | Báo cáo cá nhân |
+| --- | --- |
+| Đặng Minh Thu | [2A202604009_DangMinhThu.md](report/team/2A202604009_DangMinhThu.md) |
+| Nguyễn Xuân Khánh Linh | [2A202603801_NguyenXuanKhanhLinh.md](report/team/2A202603801_NguyenXuanKhanhLinh.md) |
+| Đậu Hoàng Minh | [2A202604011_DauHoangMinh.md](report/team/2A202604011_DauHoangMinh.md) |
+| Le The Anh | [2A202603983_LeTheAnh.md](report/team/2A202603983_LeTheAnh.md) |
